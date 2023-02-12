@@ -23,8 +23,8 @@ public class AccountService {
 
     private AccountServiceConfig accountConfig;
 
-    public List<Account> getAccountDetails(Customer customer) {
-        return Optional.of(accountRepository.findAccountByCustomerId(customer.getCustomerId()))
+    public Account getAccountDetails(Customer customer) {
+        return Optional.of(accountRepository.findByCustomerId(customer.getCustomerId()))
                 .orElseThrow(() -> new NoAccountFoundException("No account found for customer with given ID"));
     }
 

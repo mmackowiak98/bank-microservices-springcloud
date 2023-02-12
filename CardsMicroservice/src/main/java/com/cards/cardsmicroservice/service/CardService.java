@@ -22,7 +22,7 @@ public class CardService {
 
     private CardServiceConfig cardConfig;
     public List<Card> getCardDetails(Customer customer) {
-        return Optional.of(cardRepository.findCardsByCustomerId(customer.getCustomerId()))
+        return Optional.of(cardRepository.findByCustomerId(customer.getCustomerId()))
                 .orElseThrow(() -> new NoCardFoundException("No card found for customer with given Id"));
     }
 

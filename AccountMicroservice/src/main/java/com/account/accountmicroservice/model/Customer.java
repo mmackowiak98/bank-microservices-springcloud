@@ -1,14 +1,12 @@
 package com.account.accountmicroservice.model;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import jakarta.persistence.*;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Getter @Setter @ToString
@@ -16,14 +14,13 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "customer_id")
     private Long customerId;
     private String name;
     private String email;
+    @Column(name = "mobile_number")
     private String mobileNumber;
-    @CreationTimestamp
+    @Column(name = "create_dt")
     private LocalDate createDt;
-    @OneToMany(mappedBy = "customer")
-    @ToString.Exclude
-    private List<Account> accounts;
 
 }

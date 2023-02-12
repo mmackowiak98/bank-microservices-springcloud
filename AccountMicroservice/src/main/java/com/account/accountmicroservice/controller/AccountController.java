@@ -17,7 +17,7 @@ public class AccountController {
     private AccountService accountService;
 
     @PostMapping("/myAccount")
-    public List<Account> getAccountDetails(@RequestBody Customer customer) {
+    public Account getAccountDetails(@RequestBody Customer customer) {
         return accountService.getAccountDetails(customer);
     }
 

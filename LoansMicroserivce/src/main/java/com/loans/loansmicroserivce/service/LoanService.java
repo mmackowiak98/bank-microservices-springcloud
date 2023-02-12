@@ -22,7 +22,7 @@ public class LoanService {
     private LoanServiceConfig loanConfig;
 
     public List<Loan> getLoansDetails(Customer customer) {
-        return Optional.of(loanRepository.findLoandByCustomerId(customer.getCustomerId()))
+        return Optional.of(loanRepository.findByCustomerIdOrderByStartDtDesc(customer.getCustomerId()))
                 .orElseThrow(() -> new NoLoanFoundException("No loan found for customer with given Id"));
     }
 
