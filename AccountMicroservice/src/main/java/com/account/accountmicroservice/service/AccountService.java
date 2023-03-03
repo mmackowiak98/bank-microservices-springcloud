@@ -2,8 +2,7 @@ package com.account.accountmicroservice.service;
 
 import com.account.accountmicroservice.config.AccountServiceConfig;
 import com.account.accountmicroservice.exceptions.NoAccountFoundException;
-import com.account.accountmicroservice.model.Account;
-import com.account.accountmicroservice.model.Customer;
+import com.account.accountmicroservice.model.*;
 import com.account.accountmicroservice.repository.AccountRepository;
 import com.account.accountmicroservice.util.Properties;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -22,10 +21,27 @@ public class AccountService {
     private AccountRepository accountRepository;
 
     private AccountServiceConfig accountConfig;
+    private CardsFeignClient cardsFeignClient;
+    private LoansFeignClient loansFeignClient;
 
     public Account getAccountDetails(Customer customer) {
         return Optional.of(accountRepository.findByCustomerId(customer.getCustomerId()))
                 .orElseThrow(() -> new NoAccountFoundException("No account found for customer with given ID"));
+    }
+
+    public CustomerDetails getCustomerDetails(Customer customer) {
+
+        Account byCustomerId = accountRepository.findByCustomerId(customer.getCustomerId());
+        List<Card> cardDetails = cardsFeignClient.getCardDetails(customer);
+        List<Loan> loanDetails = loansFeignClient.getLoanDetails(customer);
+
+        CustomerDetails customerDetails = new CustomerDetails();
+        customerDetails.setAccount(byCustomerId);
+        customerDetails.setCards(cardDetails);
+        customerDetails.setLoans(loanDetails);
+
+        return customerDetails;
+
     }
 
     public String getPropertyDetails() {
