@@ -84,6 +84,7 @@
                 <configuration>
                         <image>
                             <name>mmackowiak/${project.artifactId}</name>
+                            <builder>dashaun/builder:tiny</builder>
                         </image>
                     <excludes>
                         <exclude>

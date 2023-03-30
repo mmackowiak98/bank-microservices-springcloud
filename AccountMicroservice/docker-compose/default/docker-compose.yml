@@ -10,6 +10,7 @@ services:
       - mmackowiak-network
     depends_on:
       - configserver
+      - eurekaserver
     deploy:
       restart_policy:
         condition: on-failure
@@ -28,6 +29,7 @@ services:
       - mmackowiak-network
     depends_on:
       - configserver
+      - eurekaserver
     deploy:
       restart_policy:
         condition: on-failure
@@ -46,6 +48,7 @@ services:
       - mmackowiak-network
     depends_on:
       - configserver
+      - eurekaserver
     deploy:
       restart_policy:
         condition: on-failure
@@ -57,11 +60,29 @@ services:
       SPRING_CONFIG_IMPORT: configserver:http://configserver:8071
 
   configserver:
-    image: mmackowiak/config:latest
+    image: mmackowiak/configserver:latest
     ports:
       - "8071:8071"
     networks:
       - mmackowiak-network
+
+  eurekaserver:
+    image: mmackowiak/eurekaserver:latest
+    ports:
+      - "8070:8070"
+    networks:
+      - mmackowiak-network
+    depends_on:
+      - configserver
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071
 
 networks:
   mmackowiak-network:
